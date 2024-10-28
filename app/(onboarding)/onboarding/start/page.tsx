@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Youtube, Mail } from "lucide-react";
+import { Youtube, Mail, YoutubeIcon } from "lucide-react";
 import Image from "next/image";
 import { useAuth } from "@/hooks/use-auth";
 
@@ -22,7 +22,7 @@ export default function StartPage() {
           variant="outline"
           size="lg"
           className="w-full relative h-14"
-          onClick={() => handleAuth('google')}
+          onClick={() => handleAuth("google")}
           disabled={!!isLoading}
         >
           <div className="absolute left-4">
@@ -33,50 +33,44 @@ export default function StartPage() {
               height={20}
             />
           </div>
-          {isLoading === 'google' ? 'Connecting...' : 'Continue with Google'}
+          {/* @ts-ignore */}
+          {isLoading === "google" ? "Connecting..." : "Continue with Google"}
         </Button>
 
         <Button
           variant="outline"
           size="lg"
           className="w-full relative h-14"
-          onClick={() => handleAuth('youtube')}
+          onClick={() => handleAuth("youtube")}
           disabled={!!isLoading}
         >
-          <Youtube className="w-5 h-5 absolute left-4" />
-          {isLoading === 'youtube' ? 'Connecting...' : 'Sign in with YouTube'}
-        </Button>
-
-        <div className="relative my-8">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-border" />
+           <div className="absolute left-4">
+            <Image
+              src="https://www.youtube.com/favicon.ico"
+              alt="Youtube"
+              width={18}
+              height={18}
+            />
           </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
-              Or continue with
-            </span>
-          </div>
-        </div>
-
-        <Button
-          variant="outline"
-          size="lg"
-          className="w-full relative h-14"
-          onClick={() => handleAuth('email')}
-          disabled={!!isLoading}
-        >
-          <Mail className="w-5 h-5 absolute left-4" />
-          {isLoading === 'email' ? 'Continuing...' : 'Sign up with email'}
+          
+          {/* @ts-ignore */}
+          {isLoading === "youtube" ? "Connecting..." : "Sign in with YouTube"}
         </Button>
       </div>
 
       <p className="text-center text-sm text-muted-foreground mt-8">
         By continuing, you agree to our{" "}
-        <a href="/terms" className="underline underline-offset-4 hover:text-primary">
+        <a
+          href="/terms"
+          className="underline underline-offset-4 hover:text-primary"
+        >
           Terms of Service
         </a>{" "}
         and{" "}
-        <a href="/privacy" className="underline underline-offset-4 hover:text-primary">
+        <a
+          href="/privacy"
+          className="underline underline-offset-4 hover:text-primary"
+        >
           Privacy Policy
         </a>
       </p>

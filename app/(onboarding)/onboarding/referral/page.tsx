@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 const referralSources = [
   { value: "social", label: "Social Media" },
@@ -127,7 +127,7 @@ export default function ReferralPage() {
       ) : (
         <div className="space-y-4 mb-8">
           <p className="text-sm text-muted-foreground">
-            Enter your friend's referral code to get a discount
+            Enter your friend&apos;s referral code to get a discount
           </p>
           <Input
             placeholder="Enter referral code"

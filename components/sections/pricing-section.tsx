@@ -5,21 +5,21 @@ import { Check, Sparkles, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { getUserCurrency, formatPrice, type Currency } from "@/lib/utils/currency";
+import { useRouter } from "next/navigation";
+
 
 const features = [
-  "Unlimited YouTube Channels",
+
   "AI-Powered Video Optimization",
   "Advanced Analytics Dashboard",
-  "Unlimited AI SEO Credits",
   "Real-Time Performance Tracking",
   "Priority 24/7 Support",
-  "Custom Branding Options",
   "Scheduled Uploads",
-  "Competitor Analysis",
   "Trend Detection & Alerts"
 ];
 
 export function PricingSection() {
+  const router = useRouter();
   const [currency, setCurrency] = useState<Currency | null>(null);
 
   useEffect(() => {
@@ -78,13 +78,11 @@ export function PricingSection() {
             </div>
 
             <div className="mt-12 text-center">
-              <Button size="lg" className="w-full sm:w-auto px-8 py-6 text-lg relative group">
+              <Button size="lg" className="w-full sm:w-auto px-8 py-6 text-lg relative group" onClick={() => router.push("/onboarding/start")}>
                 <span className="relative z-10">Start Growing Today</span>
                 <div className="absolute inset-0 h-full w-full bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left rounded-md" />
               </Button>
-              <p className="text-sm text-muted-foreground mt-4">
-                14-day money-back guarantee • No credit card required
-              </p>
+
             </div>
           </CardContent>
         </Card>

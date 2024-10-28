@@ -1,47 +1,58 @@
+"use client";
+
+import { useState } from 'react';
 import { LogIn, Wand2, TrendingUp } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 const steps = [
   {
-    title: "Sign Up with Your YouTube Account",
-    description: "Quick and simple. Use your Google credentials to connect Fozato with your channel in seconds.",
+    title: "Connect Your Channel",
+    description: "Seamlessly link your YouTube account to Fozato in seconds.",
     icon: LogIn,
   },
   {
-    title: "Optimize Your Videos Instantly",
-    description: "Paste your video link or upload directly, and let our AI work its magic to optimize for more visibility.",
+    title: "AI-Powered Optimization",
+    description: "Our AI analyzes and enhances your content for maximum visibility.",
     icon: Wand2,
   },
   {
-    title: "Publish and Watch Your Reach Grow",
-    description: "Schedule your videos, publish them, and track real-time results as your channel starts to expand effortlessly.",
+    title: "Grow Your Audience",
+    description: "Watch your reach expand as you publish optimized content.",
     icon: TrendingUp,
   },
 ];
 
 export function HowItWorksSection() {
+  const [activeStep, setActiveStep] = useState(0);
+
   return (
-    <section className="py-20 bg-background">
+    <section className="py-16 bg-background">
       <div className="container px-4 mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-            Get Started in 3 Easy Steps
-          </h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
+        <h2 className="text-3xl font-bold text-center mb-12">How Fozato Works</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {steps.map((step, index) => (
-            <div key={index} className="flex flex-col items-center text-center">
-              <div className="relative mb-8">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
-                  <step.icon className="h-8 w-8 text-primary" />
+            <Card 
+              key={index}
+              className={`transition-all duration-300 ${
+                index === activeStep ? 'border-primary shadow-lg' : ''
+              }`}
+              onMouseEnter={() => setActiveStep(index)}
+            >
+              <CardHeader>
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                  <step.icon className="w-6 h-6 text-primary" />
                 </div>
-                {index < steps.length - 1 && (
-                  <div className="hidden md:block absolute top-1/2 left-full w-full h-0.5 bg-border -translate-y-1/2" />
-                )}
-              </div>
-              <h3 className="text-xl font-semibold mb-4">{step.title}</h3>
-              <p className="text-muted-foreground">{step.description}</p>
-            </div>
+                <CardTitle>{step.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">{step.description}</p>
+              </CardContent>
+            </Card>
           ))}
+        </div>
+        <div className="mt-12 text-center">
+          <Button size="lg">Get Started Now</Button>
         </div>
       </div>
     </section>

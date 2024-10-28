@@ -10,21 +10,24 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { Menu, X } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
+
+const links = [
+  { title: "Features", href: "/features" },
+  { title: "How It Works", href: "/how-it-works" },
+  { title: "Pricing", href: "/#pricing" },
+];
 
 const resourcesLinks = [
   {
     title: "Blog",
     href: "/blog",
-    description: "Stay updated with the latest YouTube growth strategies and tips.",
+    description:
+      "Stay updated with the latest YouTube growth strategies and tips.",
   },
   {
     title: "Feedback Forums",
@@ -38,71 +41,91 @@ const resourcesLinks = [
   },
 ];
 
-const mainLinks = [
-  { title: "Features", href: "/#features" },
-  { title: "How It Works", href: "/#how-it-works" },
-  { title: "Pricing", href: "/#pricing" },
-];
-
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // This should come from your auth state
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const pathname = usePathname();
+  console.log(pathname);
+  const excludePaths = ["/onboarding", "/auth"];
+  // Check if the current path is in the excludePaths array
+  if (excludePaths.some((path) => pathname?.startsWith(path))) {
+    return null; // Don't render the header
+  }
+  const isActive = (path: string) =>
+    pathname === path || pathname?.startsWith(path + "/");
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
-        <div className="flex items-center gap-8">
-          <Link href="/" className="font-bold text-xl">
-            Fozato
-          </Link>
+    <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-sm">
+      <div className="container flex h-16 mx-auto items-center justify-between">
+        <Link href="/" className="font-semibold text-xl">
+          Fozato
+        </Link>
 
-          {/* Desktop Navigation */}
-          <NavigationMenu className="hidden lg:flex">
-            <NavigationMenuList>
-              {mainLinks.map((link) => (
-                <NavigationMenuItem key={link.title}>
-                  <Link href={link.href} legacyBehavior passHref>
-                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                      {link.title}
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-              ))}
-
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                    {resourcesLinks.map((resource) => (
-                      <li key={resource.title}>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            href={resource.href}
-                            className={cn(
-                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                            )}
-                          >
-                            <div className="text-sm font-medium leading-none">
-                              {resource.title}
-                            </div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              {resource.description}
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
-                      </li>
-                    ))}
-                  </ul>
-                </NavigationMenuContent>
+        {/* Desktop Navigation */}
+        <NavigationMenu className="hidden lg:flex">
+          <NavigationMenuList className="flex space-x-4">
+            {links.map((link) => (
+              <NavigationMenuItem key={link.title}>
+                <NavigationMenuLink
+                  href={link.href}
+                  className={cn(
+                    "text-sm font-medium transition-colors hover:text-foreground",
+                    isActive(link.href)
+                      ? "text-foreground"
+                      : "text-muted-foreground"
+                  )}
+                >
+                  {link.title}
+                </NavigationMenuLink>
               </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
-        </div>
+            ))}
+            <NavigationMenuItem>
+              <NavigationMenuTrigger
+                className={cn(
+                  "text-sm font-medium transition-colors hover:text-foreground",
+                  isActive("/blog") ||
+                    isActive("/feedback") ||
+                    isActive("/academy")
+                    ? "text-foreground"
+                    : "text-muted-foreground"
+                )}
+              >
+                Resources
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
+                  {resourcesLinks.map((resource) => (
+                    <li key={resource.title}>
+                      <NavigationMenuLink asChild>
+                        <Link
+                          href={resource.href}
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">
+                            {resource.title}
+                          </div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            {resource.description}
+                          </p>
+                        </Link>
+                      </NavigationMenuLink>
+                    </li>
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
 
-        <div className="flex items-center gap-4">
-          <Button asChild>
+        <div className="flex items-center space-x-4">
+          <Button
+            variant="outline"
+            size={"lg"}
+            className="text-basic border-spacing-1 border-black  hover:scale-105 transition-all hover:bg-transparent font-medium"
+            asChild
+          >
             <Link href={isLoggedIn ? "/app" : "/login"}>
-              {isLoggedIn ? "Go to app" : "Sign in"}
+              {isLoggedIn ? "Dashboard" : "Sign in"}
             </Link>
           </Button>
 
@@ -110,34 +133,24 @@ export function Header() {
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="lg:hidden">
               <Button variant="ghost" size="icon">
-                {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px]">
               <nav className="flex flex-col gap-4">
-                {mainLinks.map((link) => (
+                {[...links, ...resourcesLinks].map((link) => (
                   <Link
                     key={link.title}
                     href={link.href}
-                    className="block px-2 py-1 text-lg hover:text-primary"
+                    className={cn(
+                      "block px-2 py-1 text-lg transition-colors hover:text-primary",
+                      isActive(link.href) ? "text-primary" : "text-foreground"
+                    )}
                     onClick={() => setIsOpen(false)}
                   >
                     {link.title}
                   </Link>
                 ))}
-                <div className="py-2">
-                  <p className="px-2 text-sm font-medium text-muted-foreground mb-2">Resources</p>
-                  {resourcesLinks.map((resource) => (
-                    <Link
-                      key={resource.title}
-                      href={resource.href}
-                      className="block px-2 py-1 text-lg hover:text-primary"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {resource.title}
-                    </Link>
-                  ))}
-                </div>
               </nav>
             </SheetContent>
           </Sheet>
