@@ -8,7 +8,9 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const referralSources = [
-  { value: "social", label: "Social Media" },
+  { value: "Instagram", label: "Instagram" },
+  { value: "Facebook", label: "Facebook" },
+  { value: "Twitter", label: "Twitter" },
   { value: "search", label: "Google Search" },
   { value: "friend", label: "Friend Referral" },
   { value: "youtube", label: "YouTube Ad" },

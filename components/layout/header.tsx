@@ -19,7 +19,7 @@ import { usePathname } from "next/navigation";
 const links = [
   { title: "Features", href: "/features" },
   { title: "How It Works", href: "/how-it-works" },
-  { title: "Pricing", href: "/#pricing" },
+  { title: "Pricing", href: "/pricing" },
 ];
 
 const resourcesLinks = [
@@ -45,7 +45,6 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const pathname = usePathname();
-  console.log(pathname);
   const excludePaths = ["/onboarding", "/auth"];
   // Check if the current path is in the excludePaths array
   if (excludePaths.some((path) => pathname?.startsWith(path))) {
