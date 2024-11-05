@@ -46,9 +46,9 @@ export function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const pathname = usePathname();
   const excludePaths = ["/onboarding", "/auth"];
-  // Check if the current path is in the excludePaths array
+ 
   if (excludePaths.some((path) => pathname?.startsWith(path))) {
-    return null; // Don't render the header
+    return null; 
   }
   const isActive = (path: string) =>
     pathname === path || pathname?.startsWith(path + "/");
