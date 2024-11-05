@@ -16,7 +16,7 @@ export function useAuth() {
       // Simulate auth - replace with real auth in production
       await new Promise(resolve => setTimeout(resolve, 800));
       dispatch(authSuccess({ provider }));
-      router.push('/onboarding/pricing');
+      router.push('/onboarding/referral');
     } catch (error) {
       dispatch(authFailure(error instanceof Error ? error.message : 'Authentication failed'));
     }
