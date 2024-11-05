@@ -53,7 +53,7 @@ export function Header() {
     pathname === path || pathname?.startsWith(path + "/");
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-sm">
+    <header className="fixed top-0 left-0 right-0 z-50 border-b px-8 border-border/40 bg-background/80 backdrop-blur-sm">
       <div className="container flex h-16 mx-auto items-center justify-between">
         <Link href="/" className="font-semibold text-xl">
           Fozato
